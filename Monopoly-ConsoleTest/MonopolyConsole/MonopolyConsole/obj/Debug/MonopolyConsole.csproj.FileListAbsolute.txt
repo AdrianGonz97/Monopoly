@@ -1,0 +1,15 @@
+C:\Users\shark\source\repos\MonopolyConsole\MonopolyConsole\bin\Debug\MonopolyConsole.exe.config
+C:\Users\shark\source\repos\MonopolyConsole\MonopolyConsole\bin\Debug\MonopolyConsole.exe
+C:\Users\shark\source\repos\MonopolyConsole\MonopolyConsole\bin\Debug\MonopolyConsole.pdb
+C:\Users\shark\source\repos\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.csprojResolveAssemblyReference.cache
+C:\Users\shark\source\repos\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.csproj.CoreCompileInputs.cache
+C:\Users\shark\source\repos\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.exe
+C:\Users\shark\source\repos\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.pdb
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.csprojResolveAssemblyReference.cache
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.csproj.CoreCompileInputs.cache
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.exe
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\obj\Debug\MonopolyConsole.pdb
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\bin\Debug\MonopolyConsole.exe.config
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\bin\Debug\MonopolyConsole.xml
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\bin\Debug\MonopolyConsole.exe
+C:\Users\shark\Desktop\Monopoly-ConsoleTest\MonopolyConsole\MonopolyConsole\bin\Debug\MonopolyConsole.pdb

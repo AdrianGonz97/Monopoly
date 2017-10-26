@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MonopolyConsole</name>
+    </assembly>
+    <members>
+        <member name="M:MonopolyConsole.Property.TileAction(MonopolyConsole.Player)">
+            What happens when a player lands on the tile.
+            @param player - player who landed on the tile
+        </member>
+        <member name="M:MonopolyConsole.Property.BuildHouse">
+            Adds a house to the property.
+        </member>
+        <member name="M:MonopolyConsole.Property.BuildHotel">
+            Adds a hotel to the property and removes the houses.
+        </member>
+        <member name="M:MonopolyConsole.Property.Mortgage">
+            Property is mortgaged.
+        </member>
+        <member name="M:MonopolyConsole.Property.Unmortgage">
+            Property is unmortaged.
+        </member>
+        <member name="M:MonopolyConsole.Property.RentCost">
+            Computes the cost of rent of property.
+        </member>
+        <member name="M:MonopolyConsole.Property.Equals(MonopolyConsole.Property)">
+            Checks to see if properties are the same.
+            @return true if they are the same, false if not.
+        </member>
+        <member name="T:MonopolyConsole.Player">
+            Player of the game Monopoly.
+        </member>
+        <member name="M:MonopolyConsole.Player.#ctor(System.String)">
+            Player get assigned a name and begins with $1500.
+            @param playerName - name of the player
+        </member>
+        <member name="M:MonopolyConsole.Player.MortgageProperty(MonopolyConsole.IProperty)">
+            Mortgages the player's given property and receives the funds.
+            @param property - the property for which the player wants to mortgage
+        </member>
+        <member name="M:MonopolyConsole.Player.UnmortgageProperty(MonopolyConsole.IProperty)">
+            Unmortgages the player's given property and removes the funds.
+            @param property - the property for which the player wants to unmortgage
+        </member>
+        <member name="M:MonopolyConsole.Player.PayRent(MonopolyConsole.Player,System.Int32)">
+            This player pays rent to the owner of the property for the given cost.
+            @param owner - owner of the property that player landed on
+            @param rentCost - amount of money player has to pay the owner
+        </member>
+        <member name="M:MonopolyConsole.Player.RemoveMoney(System.Int32)">
+            Money is removed from player.
+            @param amount - amount of money to be removed from the player's total money
+        </member>
+        <member name="M:MonopolyConsole.Player.ReceiveMoney(System.Int32)">
+            Player receives money.
+            @param amount - amount of money to be added to the player's total money
+        </member>
+        <member name="M:MonopolyConsole.Player.GetBalance">
+            Gets the player's current money balance.
+            @return the amount of money the player currently holds
+        </member>
+        <member name="M:MonopolyConsole.Player.GoToJail">
+            Sends the player to jail. Modifies the player's player position and begins the player JailTurn counter.
+        </member>
+        <member name="M:MonopolyConsole.Player.AdvanceJailTurn">
+            Advances jail turn by one.
+        </member>
+        <member name="M:MonopolyConsole.Player.JailRelease">
+            Player is released from jail and JailTurn counter is reset to 0.
+        </member>
+        <member name="M:MonopolyConsole.Player.CheckBankruptcy">
+            Checks if the player is indeed bankrupt.
+            @return true if player is bankrupt, false if not.
+        </member>
+        <member name="M:MonopolyConsole.Player.MovePlayer(System.Int32)">
+            Moves player a given number of spaces.
+            @param amountToMove - number of spaces player gets to move
+        </member>
+        <member name="M:MonopolyConsole.Player.Trade(MonopolyConsole.Player,MonopolyConsole.IProperty[])">
+            Trades properties, get out of jail free cards, money.
+        </member>
+        <member name="M:MonopolyConsole.Player.MonopolyCheck(System.String)">
+            Checks if whether the player owns a monopoly of properties.
+            @param color - color of the property needed to be found.
+            @return true if player has a monopoly on properties of a given color, false if not.
+        </member>
+        <member name="M:MonopolyConsole.Player.AddProperty(MonopolyConsole.IProperty)">
+            Adds a property to the player's owned property list.
+            @param property - the property to be added to the player's owned list.
+        </member>
+        <member name="M:MonopolyConsole.Player.RemoveProperty(MonopolyConsole.IProperty)">
+            Removes a property from the player's owned list.
+            @param property - the property to be removed from the player's owned list.
+        </member>
+        <member name="M:MonopolyConsole.Player.GetMonopolizedPropertiesIndexList(System.String)">
+            Finds the indicies of the properties that player owns that are monopolized.
+            @param color - the color of the potential monopolized properties.
+            @return a list of index values of the location of the monopolized properties.
+        </member>
+        <member name="M:MonopolyConsole.Player.BuyHouse(MonopolyConsole.IProperty)">
+            Overly complicated buy house method that uses logic to determine whether a player can purchase and build a house on given property.
+            @param property - the property that is wanted have a house built upon.
+        </member>
+        <member name="M:MonopolyConsole.Player.SellHouse(MonopolyConsole.IProperty)">
+            
+        </member>
+        <member name="M:MonopolyConsole.Player.BuyHotel">
+            
+        </member>
+        <member name="M:MonopolyConsole.Player.SellHotel">
+            
+        </member>
+        <member name="M:MonopolyConsole.Player.GetProperty(System.Int32)">
+            Returns property from player's owned property list.
+            @param indexOfProperty - the index at which the property is located.
+            @return the property at the given index.
+        </member>
+        <member name="M:MonopolyConsole.Player.GetIndexOfProperty(MonopolyConsole.IProperty)">
+            Finds the index of the Tile in the player's posession.
+            @param property - the property whose index is to be found
+            @return the index of the Tile, otherwise -1 if player does not own the tile.
+        </member>
+        <member name="M:MonopolyConsole.Player.Equals(MonopolyConsole.Player)">
+            Checks if both player objects are equal to eachother.
+            @param player - player object that is being checked.
+            @return true if the two objects are equal, false if not.
+        </member>
+    </members>
+</doc>
