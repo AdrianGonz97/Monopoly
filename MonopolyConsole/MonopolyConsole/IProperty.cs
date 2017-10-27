@@ -29,6 +29,8 @@ namespace MonopolyConsole
         int RentCost();
         bool Mortgage();  
         bool Unmortgage();
+        void RemoveHouse();
+        void RemoveHotel();
         void BuildHouse();
         void BuildHotel();
     }

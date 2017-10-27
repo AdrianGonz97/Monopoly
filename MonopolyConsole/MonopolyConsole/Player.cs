@@ -278,96 +278,6 @@ namespace MonopolyConsole
         }
 
         /**
-         * Finds the indicies of the properties that player owns that are monopolized.
-         * @param color - the color of the potential monopolized properties.
-         * @return a list of index values of the location of the monopolized properties.
-         */
-        public List<int> GetMonopolizedPropertiesIndexList(String color)
-        {
-            List<int> index = new List<int>();
-
-            if (MonopolyCheck(color)) // if player has a monopoly of that color..
-            {
-                for (int i = 0; i < ownedProperty.Count; i++)
-                {
-                    if (ownedProperty[i].Equals(color))
-                    {
-                        index.Add(i);
-                    }
-                }
-                return index;
-            }
-            return index; // impossible to reach this point, but for the sake of compiling..
-        }
-
-        /**
-         * Overly complicated buy house method that uses logic to determine whether a player can purchase and build a house on given property.
-         * @param property - the property that is wanted have a house built upon.
-         */
-        public void BuyHouse(IProperty property)
-        {
-            if (MonopolyCheck(property.Color) && moneyBalance >= property.CostOfHouse) // if player has a monopoly on the color and if they can afford it..
-            {
-                List<int> index = GetMonopolizedPropertiesIndexList(property.Color);
-                int propertyIndex = GetIndexOfProperty(property);   // index of property being tested
-
-                index.Remove(propertyIndex); // removes tested property from list
-
-                if (property.NumOfHouses <= GetProperty(index[0]).NumOfHouses) // if second property has the same or more number of houses as the tested one..
-                {
-                    if (index.Count == 2) // if there are 3 properties total (property being tested was removed from list earlier)..
-                    {
-                        if (property.NumOfHouses <= GetProperty(index[1]).NumOfHouses) // check the third property for if the number of houses are equal or more..
-                        {
-                            RemoveMoney(property.CostOfHouse); // charges the player the cost to build a house
-                            property.BuildHouse();  // builds house
-                            Console.WriteLine($"PLAYER {PlayerName} has built a house on PROPERTY {property.Name}, which now has {property.NumOfHouses} houses!");
-                        }
-                        else
-                            Console.WriteLine($"PLAYER {PlayerName} HOUSE BUILD DENIED! PROPERTY {GetProperty(index[1]).Name} requires a house house before " +
-                                $"PLAYER can build another on PROPERTY {property.Name}!");
-                    }
-                    else // otherwise, monopoly is on a dark blue or a brown..
-                    {
-                        RemoveMoney(property.CostOfHouse); // charges the player the cost to build a house
-                        property.BuildHouse();  // builds house
-                        Console.WriteLine($"PLAYER {PlayerName} has built a house on PROPERTY {property.Name}, which now has {property.NumOfHouses} houses!");
-                    }
-                }
-                else // otherwise, player can't build on property because other colored property does not have enough houses built
-                    Console.WriteLine($"PLAYER {PlayerName} HOUSE BUILD DENIED! PROPERTY {GetProperty(index[0]).Name} requires a house house before " +
-                                $"PLAYER can build another on PROPERTY {property.Name}!");
-            }
-            else // otherwise, player can't build on property because of funds or lack of monopoly on color
-                Console.WriteLine($"PLAYER {PlayerName} HOUSE BUILD DENIED! PLAYER does not have a monopoly on COLOR {property.Color} OR does not " +
-                    $"have sufficient funds to build on PROPERTY {property.Name}!");
-        }
-
-        /**
-         * 
-         */
-        public void SellHouse(IProperty property)
-        {
-
-        }
-
-        /**
-         * 
-         */
-        public void BuyHotel()
-        {
-
-        }
-
-        /**
-         * 
-         */
-        public void SellHotel()
-        {
-
-        }
-
-        /**
          * Returns property from player's owned property list.
          * @param indexOfProperty - the index at which the property is located.
          * @return the property at the given index.
@@ -412,6 +322,267 @@ namespace MonopolyConsole
             else
                 return false;
         }
-        
+
+        // checks if house can be built. pls dont examine, not clean
+        private bool CanBuildHouse(IProperty property)
+        {
+            if (MonopolyCheck(property.Color) && moneyBalance >= property.CostOfHouse) // if player has a monopoly on the color and funds to build..
+            {
+                List<int> index = GetMonopolizedPropertiesIndexList(property.Color);
+                int propertyIndex = GetIndexOfProperty(property);   // index of property being tested
+
+                index.Remove(propertyIndex); // removes tested property from list
+
+                // if property has less or equal num of houses of other property, and doesn't have 4 houses already..
+                if (property.NumOfHouses <= GetProperty(index[0]).NumOfHouses && property.NumOfHouses != 4) 
+                {
+                    if (index.Count == 2) // if monopoly consists of 3 properties (checks 2 because of removed property that we are testing)..
+                    {
+                        // if property has less or equal num of houses of other property, and doesn't have 4 houses already..
+                        if (property.NumOfHouses <= GetProperty(index[1]).NumOfHouses && property.NumOfHouses != 4)
+                        {
+                            return true; // can be built upon
+                        }
+                        else // otherwise, false
+                        {
+                            Console.WriteLine($"PLAYER {PlayerName} HOUSE BUILD DENIED! PROPERTY {GetProperty(index[1]).Name} requires a house before " +
+                                $"PLAYER can build another on PROPERTY {property.Name}!");
+                            return false;
+                        }
+                    }
+                    else // otherwise, color is dark blue or brown and can be built upon
+                    {
+                        return true;
+                    }
+                }
+                else // otherwise, cannot be built upon
+                {
+                    Console.WriteLine($"PLAYER {PlayerName} HOUSE BUILD DENIED! PROPERTY {GetProperty(index[0]).Name} requires a house before " +
+                                $"PLAYER can build another on PROPERTY {property.Name}!");
+                    return false;
+                }
+            }
+            else // otherwise, cannot be built upon
+            {
+                Console.WriteLine($"PLAYER {PlayerName} HOUSE BUILD DENIED! PLAYER does not have a monopoly on COLOR {property.Color} OR does not " +
+                    $"have sufficient funds to build on PROPERTY {property.Name}!");
+                return false;
+            }
+        }
+
+        // checks if house can be sold. pls dont examine, not clean
+        private bool CanSellHouse(IProperty property)
+        {
+            if (MonopolyCheck(property.Color) && property.NumOfHouses != 0) // if player has a monopoly on color..
+            {
+                List<int> index = GetMonopolizedPropertiesIndexList(property.Color); // list of properties of monopoly
+                int propertyIndex = GetIndexOfProperty(property);   // index of property being tested
+
+                index.Remove(propertyIndex); // removes tested property from list
+
+                // if property has more or equal num of houses of other property
+                if (property.NumOfHouses >= GetProperty(index[0]).NumOfHouses)
+                {
+                    if (index.Count == 2) // if monopoly consists of 3 properties (checks 2 because of removed property that we are testing)..
+                    {
+                        // if property has less or equal num of houses of other property
+                        if (property.NumOfHouses >= GetProperty(index[1]).NumOfHouses)
+                        {
+                            return true; // can sell house
+                        }
+                        else // otherwise, can't sell house
+                        {
+                            Console.WriteLine($"PLAYER {PlayerName} HOUSE SALE DENIED! PROPERTY {GetProperty(index[1]).Name} requires a house to be sold before " +
+                                $"PLAYER can sell a house on PROPERTY {property.Name}!");
+                            return false;
+                        }
+                    }
+                    else // otherwise, can sell house as color is dark blue or brown
+                    {
+                        return true; // can sell house
+                    }
+                }
+                else // otherwise, can't sell house
+                {
+                    Console.WriteLine($"PLAYER {PlayerName} HOUSE SALE DENIED! PROPERTY {GetProperty(index[0]).Name} requires a house to be sold before " +
+                                $"PLAYER can sell a house on PROPERTY {property.Name}!");
+                    return false;
+                }
+            }
+            else // otherwise, can't sell house
+            {
+                Console.WriteLine($"PLAYER {PlayerName} HOUSE SALE DENIED! PLAYER does not have a monopoly on COLOR {property.Color} OR does not " +
+                    $"have any houses built on PROPERTY {property.Name}!");
+                return false;
+            }
+        }
+
+        // checks if hotel can be built. pls dont examine, not clean
+        private bool CanBuildHotel(IProperty property)
+        {
+            if (MonopolyCheck(property.Color) && moneyBalance >= property.CostOfHotel)
+            {
+                List<int> index = GetMonopolizedPropertiesIndexList(property.Color);
+                int propertyIndex = GetIndexOfProperty(property);   // index of property being tested
+                index.Remove(propertyIndex);
+
+                if ((property.NumOfHouses == 4) && ((GetProperty(index[0]).NumOfHouses == 4 || (GetProperty(index[0]).HasHotel == true))))
+                {
+                    if (index.Count == 2)
+                    {
+                        if ((GetProperty(index[1]).NumOfHouses == 4 || (GetProperty(index[1]).HasHotel == true)))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"PLAYER {PlayerName} HOTEL BUILD DENIED! PROPERTY {GetProperty(index[1]).Name} requires 4 houses before " +
+                                $"PLAYER can build a HOTEL on PROPERTY {property.Name}!");
+                            return false;
+                        }
+                    }
+                    else 
+                        return true;
+                }
+                else
+                {
+                    Console.WriteLine($"PLAYER {PlayerName} HOTEL BUILD DENIED! PROPERTY {GetProperty(index[0]).Name} OR PROPERTY {property.Name} requires 4 houses before " +
+                                $"PLAYER can build a HOTEL on PROPERTY {property.Name}!");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"PLAYER {PlayerName} HOTEL BUILD DENIED! A monopoly is need on the same color of PROPERTY {property.Name} or PLAYER {PlayerName} does not" +
+                    $"have sufficient funds to built a hotel!");
+                return false;
+            }
+        }
+
+        // checks if hotel can be sold. pls dont examine, not clean
+        private bool CanSellHotel(IProperty property)
+        {
+            if (MonopolyCheck(property.Color) && property.HasHotel)
+            {
+                List<int> index = GetMonopolizedPropertiesIndexList(property.Color);
+                int propertyIndex = GetIndexOfProperty(property);   // index of property being tested
+                index.Remove(propertyIndex);
+
+                if ((GetProperty(index[0]).NumOfHouses == 4 || (GetProperty(index[0]).HasHotel == true)))
+                {
+                    if (index.Count == 2)
+                    {
+                        if ((GetProperty(index[1]).NumOfHouses == 4 || (GetProperty(index[1]).HasHotel == true)))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"PLAYER {PlayerName} HOTEL SALE DENIED! PROPERTY {GetProperty(index[1]).Name} requires 4 houses before " +
+                                $"PLAYER can SELL a HOTEL on PROPERTY {property.Name}!");
+                            return false;
+                        }
+                    }
+                    else
+                        return true;
+                }
+                else
+                {
+                    Console.WriteLine($"PLAYER {PlayerName} HOTEL SALE DENIED! PROPERTY {GetProperty(index[0]).Name} OR PROPERTY {property.Name} requires 4 houses before " +
+                                $"PLAYER can SELL a HOTEL on PROPERTY {property.Name}!");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"PLAYER {PlayerName} HOTEL SALE DENIED! A monopoly is need on the same color or PLAYER {PlayerName} does not" +
+                    $" already have a hotel built on PROPERTY {property.Name}!");
+                return false;
+            }
+        }
+
+        /**
+         * Finds the indicies of the properties that player owns that are monopolized.
+         * @param color - the color of the potential monopolized properties.
+         * @return a list of index values of the location of the monopolized properties.
+         */
+        public List<int> GetMonopolizedPropertiesIndexList(String color)
+        {
+            List<int> index = new List<int>();
+
+            if (MonopolyCheck(color)) // if player has a monopoly of that color..
+            {
+                for (int i = 0; i < ownedProperty.Count; i++)
+                {
+                    if (ownedProperty[i].Equals(color))
+                    {
+                        index.Add(i);
+                    }
+                }
+                return index;
+            }
+            return index; // impossible to reach this point, but for the sake of compiling..
+        }
+
+        /**
+         * Buys house, builds on given property and removes house piece.
+         * @param property - the property that is wanted have a house built upon.
+         */
+        public void BuyHouse(IProperty property)
+        {
+            if (CanBuildHouse(property)) // if player can build a house *AND IF BANK/BOARD HAS A HOUSE PIECE* NOT IMPLEMENTED YET
+            {
+                RemoveMoney(property.CostOfHouse); // charges the player the cost to build a house
+                property.BuildHouse();  // builds house
+                // *REMOVES HOUSE PIECE FROM BANK/BOARD* NOT IMPLEMENTED YET
+                Console.WriteLine($"PLAYER {PlayerName} has BUILT a HOUSE on PROPERTY {property.Name}, which now has {property.NumOfHouses} houses!");
+            }
+        }
+
+        /**
+         * Sells house on given property and adds house piece.
+         * @param property - the property that is wanted to have a house sold.
+         */
+        public void SellHouse(IProperty property)
+        {
+            if (CanSellHouse(property)) // if player can sell house 
+            {
+                ReceiveMoney(property.HouseValue); // pays player for the value of the house
+                property.RemoveHouse();  // removes house
+                // *ADDS HOUSE PIECE TO BANK/BOARD* NOT IMPLEMENTED YET
+                Console.WriteLine($"PLAYER {PlayerName} has SOLD a HOUSE on PROPERTY {property.Name}, which now has {property.NumOfHouses} houses!");
+            }
+        }
+
+        /**
+         * Buys hotel, builds on given property and removes hotel piece.
+         * @param property - the property that is wanted have a house built upon.
+         */
+        public void BuyHotel(IProperty property)
+        {
+            if (CanBuildHotel(property)) // if player can build a hotel *AND IF BANK/BOARD HAS A HOTEL PIECE* NOT IMPLEMENTED YET
+            {
+                RemoveMoney(property.CostOfHotel); // charges the player the cost to build a hotel
+                property.BuildHotel();  // builds hotel
+                // *REMOVES HOTEL PIECE FROM BANK/BOARD* NOT IMPLEMENTED YET
+                Console.WriteLine($"PLAYER {PlayerName} has BUILT a HOTEL on PROPERTY {property.Name}, which now has a hotel!");
+            }
+        }
+
+        /**
+         * Sells hotel on given property and adds hotel piece.
+         * @param property - the property that is wanted to have a hotel sold.
+         */
+        public void SellHotel(IProperty property)
+        {
+            if (CanSellHotel(property)) // if player can sell hotel
+            {
+                ReceiveMoney(property.HotelValue); // pays player for the value of the hotel
+                property.RemoveHotel();  // removes hotel
+                // *ADDS HOTEL PIECE TO BANK/BOARD* NOT IMPLEMENTED YET
+                Console.WriteLine($"PLAYER {PlayerName} has SOLD a HOUSE on PROPERTY {property.Name}, which now has {property.NumOfHouses} houses!");
+            }
+        }
+
     }
 }

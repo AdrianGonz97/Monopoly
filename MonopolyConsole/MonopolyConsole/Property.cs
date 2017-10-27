@@ -82,6 +82,31 @@ namespace MonopolyConsole
         }
 
         /**
+         * Removes a house from the property.
+         */
+        public void RemoveHouse()
+        {
+            if (NumOfHouses != 0)
+            {
+                NumOfHouses--;
+                Console.WriteLine($"PROPERTY {Name} has REMOVED a house! It now has {NumOfHouses} HOUSES.");
+            }
+        }
+
+        /**
+         * Removes a hotel from the property.
+         */
+        public void RemoveHotel()
+        {
+            if (HasHotel)
+            {
+                HasHotel = false;
+                NumOfHouses = 4;
+                Console.WriteLine($"PROPERTY {Name} has REMOVED a hotel");
+            }
+        }
+
+        /**
          * Adds a hotel to the property and removes the houses.
          */
         public void BuildHotel()
