@@ -19,7 +19,7 @@ namespace MonopolyConsole
         public bool IsBankrupt { get; set; }                // is player bankrupt?
         public bool InJail {get; set;}                      // is player in jail?
         public int JailTurnNumber {get; set;}               // player jail turn
-        public const int DEFAULT_MONEY_START = 1500;        // default amount of monet at the start of game
+        public const int DEFAULT_MONEY_START = 150000000;        // default amount of monet at the start of game
         
         /**
          * Player get assigned a name and begins with $1500.
@@ -194,9 +194,9 @@ namespace MonopolyConsole
         /**
          * Trades properties, get out of jail free cards, money.
          */
-        public void Trade(Player trader, IProperty[] properties)
-         {
-
+        public void Trade(Player trader, IProperty properties)
+        {
+            
 
             //Console.WriteLine($"Player {PlayerName} has moved {amountToMove} spaces and is now at position {PlayerPosition}");
         }
@@ -326,7 +326,8 @@ namespace MonopolyConsole
         // checks if house can be built. pls dont examine, not clean
         private bool CanBuildHouse(IProperty property)
         {
-            if (MonopolyCheck(property.Color) && moneyBalance >= property.CostOfHouse) // if player has a monopoly on the color and funds to build..
+            // if player has a monopoly on the color and funds to build, and property is not mortgaged..
+            if (MonopolyCheck(property.Color) && moneyBalance >= property.CostOfHouse && !property.IsMortgaged) 
             {
                 List<int> index = GetMonopolizedPropertiesIndexList(property.Color);
                 int propertyIndex = GetIndexOfProperty(property);   // index of property being tested
@@ -514,7 +515,7 @@ namespace MonopolyConsole
             {
                 for (int i = 0; i < ownedProperty.Count; i++)
                 {
-                    if (ownedProperty[i].Equals(color))
+                    if (ownedProperty[i].Color.Equals(color))
                     {
                         index.Add(i);
                     }

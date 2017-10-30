@@ -25,8 +25,6 @@ namespace MonopolyConsole
                 $"{player.GetProperty(player.GetIndexOfProperty(parkplace)).Name}. Change his name now!");
 
             player.RemoveProperty(parkplace);
-            player.RemoveProperty(parkplace);
-            player.RemoveProperty(parkplace);
 
             player.AddProperty(boardwalk);
             player.AddProperty(boardwalk);
@@ -36,14 +34,19 @@ namespace MonopolyConsole
             player.AddProperty(parkplace);
             player.AddProperty(boardwalk);
 
-            player.RemoveProperty(parkplace);
-            player.RemoveProperty(boardwalk);
+            player.MortgageProperty(boardwalk);
+            player.UnmortgageProperty(boardwalk);
+
+            player.BuyHouse(boardwalk);
+
 
             String input = Console.ReadLine();
 
             player.PlayerName = input;
             
             Console.WriteLine($"PLAYER {player.PlayerName}");
+
+            Console.ReadLine();
         }
     }
 }

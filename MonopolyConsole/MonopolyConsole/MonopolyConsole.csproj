@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\Card.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Tiles\Boardwalk.cs" />

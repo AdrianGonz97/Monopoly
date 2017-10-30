@@ -11,6 +11,12 @@
         <member name="M:MonopolyConsole.Property.BuildHouse">
             Adds a house to the property.
         </member>
+        <member name="M:MonopolyConsole.Property.RemoveHouse">
+            Removes a house from the property.
+        </member>
+        <member name="M:MonopolyConsole.Property.RemoveHotel">
+            Removes a hotel from the property.
+        </member>
         <member name="M:MonopolyConsole.Property.BuildHotel">
             Adds a hotel to the property and removes the houses.
         </member>
@@ -76,7 +82,7 @@
             Moves player a given number of spaces.
             @param amountToMove - number of spaces player gets to move
         </member>
-        <member name="M:MonopolyConsole.Player.Trade(MonopolyConsole.Player,MonopolyConsole.IProperty[])">
+        <member name="M:MonopolyConsole.Player.Trade(MonopolyConsole.Player,MonopolyConsole.IProperty)">
             Trades properties, get out of jail free cards, money.
         </member>
         <member name="M:MonopolyConsole.Player.MonopolyCheck(System.String)">
@@ -92,24 +98,6 @@
             Removes a property from the player's owned list.
             @param property - the property to be removed from the player's owned list.
         </member>
-        <member name="M:MonopolyConsole.Player.GetMonopolizedPropertiesIndexList(System.String)">
-            Finds the indicies of the properties that player owns that are monopolized.
-            @param color - the color of the potential monopolized properties.
-            @return a list of index values of the location of the monopolized properties.
-        </member>
-        <member name="M:MonopolyConsole.Player.BuyHouse(MonopolyConsole.IProperty)">
-            Overly complicated buy house method that uses logic to determine whether a player can purchase and build a house on given property.
-            @param property - the property that is wanted have a house built upon.
-        </member>
-        <member name="M:MonopolyConsole.Player.SellHouse(MonopolyConsole.IProperty)">
-            
-        </member>
-        <member name="M:MonopolyConsole.Player.BuyHotel">
-            
-        </member>
-        <member name="M:MonopolyConsole.Player.SellHotel">
-            
-        </member>
         <member name="M:MonopolyConsole.Player.GetProperty(System.Int32)">
             Returns property from player's owned property list.
             @param indexOfProperty - the index at which the property is located.
@@ -124,6 +112,27 @@
             Checks if both player objects are equal to eachother.
             @param player - player object that is being checked.
             @return true if the two objects are equal, false if not.
+        </member>
+        <member name="M:MonopolyConsole.Player.GetMonopolizedPropertiesIndexList(System.String)">
+            Finds the indicies of the properties that player owns that are monopolized.
+            @param color - the color of the potential monopolized properties.
+            @return a list of index values of the location of the monopolized properties.
+        </member>
+        <member name="M:MonopolyConsole.Player.BuyHouse(MonopolyConsole.IProperty)">
+            Buys house, builds on given property and removes house piece.
+            @param property - the property that is wanted have a house built upon.
+        </member>
+        <member name="M:MonopolyConsole.Player.SellHouse(MonopolyConsole.IProperty)">
+            Sells house on given property and adds house piece.
+            @param property - the property that is wanted to have a house sold.
+        </member>
+        <member name="M:MonopolyConsole.Player.BuyHotel(MonopolyConsole.IProperty)">
+            Buys hotel, builds on given property and removes hotel piece.
+            @param property - the property that is wanted have a house built upon.
+        </member>
+        <member name="M:MonopolyConsole.Player.SellHotel(MonopolyConsole.IProperty)">
+            Sells hotel on given property and adds hotel piece.
+            @param property - the property that is wanted to have a hotel sold.
         </member>
     </members>
 </doc>
